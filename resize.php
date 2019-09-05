@@ -9,96 +9,117 @@ require "php-image-resize-master/lib/ImageResizeException.php";
 
 use \Gumlet\ImageResize;
 
-$target_dir = __DIR__.'/uploads/';
-$target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
-$uploadOk = 1;
-$uploadedImageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
-
 // Check if image file is a actual image or fake image
 if(isset($_POST["submit"])) {
-    $file = $_FILES["fileToUpload"]["name"];
-    $ext = pathinfo($_FILES["fileToUpload"]["name"], PATHINFO_EXTENSION);
-    $fileBaseName = pathinfo($_FILES["fileToUpload"]["name"], PATHINFO_FILENAME);
-    // var_dump($_FILES);exit;
-    
+    $target_dir = __DIR__.'/uploads/';
+    $file_count = count($_FILES['fileToUpload']['name']);
+
     // Receive width and height
     $width = (int) $_POST['width'];
     $height = (int) $_POST['height'];
 
-    $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
-    if($check !== false) {
-        echo "File is an image - " . $check["mime"] . ".";
-        $uploadOk = 1;
-    } else {
-        echo "File is not an image.";
-        $uploadOk = 0;
-    }
-}
-// Check if file already exists
-if (file_exists($target_file)) {
-    echo "Sorry, file already exists.";
-    $uploadOk = 0;
-}
-// Check file size
-if ($_FILES["fileToUpload"]["size"] > 50000000) {
-    echo "Sorry, your file is too large.";
-    $uploadOk = 0;
-}
-// Allow certain file formats
-if($uploadedImageFileType != "jpg" && $uploadedImageFileType != "png" && $uploadedImageFileType != "jpeg"
-&& $uploadedImageFileType != "gif" ) {
-    echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
-    $uploadOk = 0;
-}
-// Check if $uploadOk is set to 0 by an error
-if ($uploadOk == 0) {
-    echo "Sorry, your file was not uploaded.";
-// if everything is ok, try to upload file
-} else {
-    if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
-        echo "The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.";
-    } else {
-        echo "Sorry, there was an error uploading your file.";
-    }
-}
+    for ($i=0;$i<$file_count;$i++) {
 
-// echo $fileBaseName;exit;
-// var_dump($_FILES);exit;
+        $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"][$i]);
+        $upload_ok = 1;
+        $uploaded_image_filetype = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+        $file = $_FILES["fileToUpload"]["name"][$i];
+        $ext = pathinfo($_FILES["fileToUpload"]["name"][$i], PATHINFO_EXTENSION);
+        $file_base_name = pathinfo($_FILES["fileToUpload"]["name"][$i], PATHINFO_FILENAME);
+        $check = getimagesize($_FILES["fileToUpload"]["tmp_name"][$i]);
 
-try {
-    if(file_exists($target_file)) {
-        
-        $uploadedImage = new ImageResize($target_file);
-        
-        if(isset($width) && isset($height)) {
-            $uploadedImage->resize($width, $height);
-        } elseif (isset($width) && !isset($height)) {
-            $uploadedImage->resizeToWidth($width);
-        } elseif (isset($height) && !isset($width)) {
-            $uploadedImage->resizeToHeight($height);
+        if($check !== false) {
+            echo "<script>console.log('File is an image - " . $check["mime"] . ".')</script>";
+            $upload_ok = 1;
         } else {
-            $uploadedImage->resizeToWidth(700);
+            echo "<script>console.log('File is not an image.')</script>";
+            $upload_ok = 0;
         }
-        
-        // $newName = time(). '.'.$ext;
-        $newName = $fileBaseName . '_'. time() . '.' . $ext;
-        $newNameLocation = $target_dir .'/'. $newName;
-        
-        if($uploadedImage->save($newNameLocation)){
-            
-            echo '<img src="uploads/'.$newName.'">';
-            @unlink($target_file);
-        }else {
-            echo 'error saving';
-        }
-    }else {
-        echo '<br>';
-        echo 'No file';
-    }
 
-}catch( \Exception $e ) {
-    // @unlink($file);
-    echo '<br>';
-    echo "Error Message: ". $e->getMessage();
+        // Check if file already exists
+        if (file_exists($target_file)) {
+            echo "<script>console.log('Sorry, file already exists.')</script>";
+            $upload_ok = 0;
+        }
+
+        // Check file size
+        if ($_FILES["fileToUpload"]["size"][$i] > 50000000) {
+            echo "<script>console.log('Sorry, your file is too large.')</script>";
+            $upload_ok = 0;
+        }
+
+        // Allow certain file formats
+        if($uploaded_image_filetype != "jpg" && $uploaded_image_filetype != "png" && $uploaded_image_filetype != "jpeg"
+        && $uploaded_image_filetype != "gif" ) {
+            echo "<script>console.log('Sorry, only JPG, JPEG, PNG & GIF files are allowed.')</script>";
+            $upload_ok = 0;
+        }
+
+        // Check if $upload_ok is set to 0 by an error
+        if ($upload_ok == 0) {
+            echo "<script>console.log('Sorry, your file was not uploaded.";
+        // if everything is ok, try to upload file
+        } else {
+            if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"][$i], $target_file)) {
+                echo "<script>console.log('The file ". basename( $_FILES["fileToUpload"]["name"][$i]). " has been uploaded.')</script>";
+            } else {
+                echo "<script>console.log('Sorry, there was an error uploading your file.')</script>";
+            }
+        }
+
+        try {
+            if(file_exists($target_file)) {
+                
+                $uploaded_image = new ImageResize($target_file);
+                
+                if ( $width !== 0 && $height !== 0 ) {
+                    // echo 'both set';exit;
+                    $uploaded_image->resize($width, $height);
+                    $new_name = $file_base_name . '_' . $width . 'x' . $height . '.' . $ext;
+                } elseif ( $width !== 0 && $height === 0 ) {
+                    // echo 'only width set';exit;
+                    $uploaded_image->resizeToWidth($width);
+                    $new_name = $file_base_name . '_' . $width . '.' . $ext;
+                } elseif ( $height !== 0 && $width === 0 ) {
+                    // echo 'only height set';exit;
+                    $uploaded_image->resizeToHeight($height);
+                    $new_name = $file_base_name . '_' . $height .'.' . $ext;
+                } else {
+                    // echo 'nothing set';exit;
+                    $uploaded_image->resizeToWidth(700);
+                    $new_name = $file_base_name . '_700.' . $ext;
+                }
+                
+                
+                // $new_name = $file_base_name . '_'. time() . '.' . $ext;
+                $new_name_location = $target_dir .'/'. $new_name;
+                
+                if($uploaded_image->save($new_name_location)){
+                    
+                    echo "<script>console.log('Done')</script>";
+                    @unlink($target_file);
+                }else {
+                    echo "<script>console.log('error saving')</script>";
+                }
+            }else {
+                echo "<script>console.log('<br>'')</script>";
+                echo "<script>console.log('No file'')</script>";
+            }
+
+        }catch( \Exception $e ) {
+            // @unlink($file);
+            echo "<script>console.log('<br>'')</script>";
+            echo "<script>console.log('Error Message: " . $e->getMessage() . "')</script>";
+        }
+
+
+    }
+    
+
 }
 ?>
+<!-- <script>
+setTimeout(function(){
+            window.history.back();
+         }, 7000);
+</script> -->
