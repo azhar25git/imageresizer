@@ -9,7 +9,7 @@ function validate(){
         return false;
     } else {
         document.getElementById('submit').style.display = 'none';
-        document.getElementById('loader').style.display = 'block';
+        document.getElementById('loader').style.display = 'inline-block';
         var form = document.getElementById('resizer-form');
         form.submit();
         form.reset();

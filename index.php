@@ -17,8 +17,7 @@
 		<!-- <button class="btn btn-sm m-3" onclick="return(removeLast());">Remove image <b>-</b></button> -->
 		</div>
 		<form class="mx-auto" id="resizer-form" action="" method="post" enctype="multipart/form-data" style="width:350px;" onsubmit="return(validate());">
-			<div style="display:none;position:absolute;z-index:9999;" class="float-right" id="loader" ><img style="width:50px;" src="loader.gif" alt=""></div>
-			
+						
 			<div class="form-group">
 				<label for="fileToUpload">Provide upload folder link</label>
 				<input class="form-control-file" type="text" name="uploadFolder" id="uploadFolder" placeholder="uploads/">
@@ -59,7 +58,8 @@
 			
 			
 			<div class="form-group">
-				<input class="form-control btn btn-outline-dark" type="submit" id="submit" value="Upload Image" name="submit">
+				<input class="form-control btn btn-outline-dark col-12 mx-auto" type="submit" id="submit" value="Upload Image" name="submit">
+				<div style="display:none;position:relative;z-index:9999;" class="col-12 text-center" id="loader" ><img style="width:50px;" src="loader.gif" alt=""></div>
 			</div>
 			
 		</form>
