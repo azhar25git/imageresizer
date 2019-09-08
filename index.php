@@ -4,6 +4,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<meta name="author" content="Azhar Uddin - getazharuddin@gmail.com">
 	<title>Resizer</title>
 	<link rel="stylesheet" href="css/bootstrap.min.css">
 	<script src="js/style.js"></script>
@@ -11,17 +12,18 @@
 <body>
 
 	<section class="col-10 mx-auto row justify-content-center">
-	<div class="col-5 card mx-auto mt-5 py-5">
-		<div class="mx-auto" >
-			<button class="btn btn-sm btn-outline-dark mb-3" onclick="return(addMore());">Add more images <b>+</b></button>
+	<div class="col-5 card mx-auto mt-5 py-5" >
+		<div class="mx-auto d-flex justify-content-around" style="width:350px;">
+			<button class="px-2 btn btn-sm btn-outline-dark mb-3" onclick="return(addMore());">Add more images <b>+</b></button>
+			<a href="refresh.php" class="px-2 btn btn-sm btn-outline-info mb-3">Refresh Plugin</a>
 		<!-- <button class="btn btn-sm m-3" onclick="return(removeLast());">Remove image <b>-</b></button> -->
 		</div>
 		<form class="mx-auto" id="resizer-form" action="" method="post" enctype="multipart/form-data" style="width:350px;" onsubmit="return(validate());">
 						
-			<div class="form-group">
+			<!-- <div class="form-group">
 				<label for="fileToUpload">Provide upload folder link</label>
 				<input class="form-control-file" type="text" name="uploadFolder" id="uploadFolder" placeholder="uploads/">
-			</div>
+			</div> -->
 			
 			<div class="row">
 				<div class="form-group col">

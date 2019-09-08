@@ -12,11 +12,11 @@ use \Gumlet\ImageResize;
 // Check if image file is a actual image or fake image
 if(isset($_POST["submit"])) {
 
-    $upload_folder = (string) $_POST['uploadFolder'];
+    // $upload_folder = (string) $_POST['uploadFolder'];
+    $upload_folder = (string) '';
     $default_dir = "uploads/";
     if($upload_folder == ''){
         $target_dir = __DIR__ . '/' . $default_dir;
-        
         $upload_dir = $default_dir;
         
     } else {
@@ -109,7 +109,7 @@ if(isset($_POST["submit"])) {
                 if($uploaded_image->save($new_name_location)){
                     
                     echo "<script>console.log('Done');";
-                    echo "document.getElementById('image-box').insertAdjacentHTML('beforeend', '<a class=\"p-3\" href=\"".$final_link."\" download=\"".$new_name."\"> <img src=\"".$final_link."\" alt=\"image\" width=\"180\" height=\"180\"> </a>');</script>";
+                    echo "document.getElementById('image-box').insertAdjacentHTML('beforeend', '<a class=\"p-3\" href=\"".$final_link."\" download=\"".$new_name."\"> <img class=\"img-thumbnail\"src=\"".$final_link."\" alt=\"image\" width=\"180\" height=\"180\"> </a>');</script>";
                     @unlink($target_file);
                 }else {
                     echo "<script>console.log('error saving')</script>";
