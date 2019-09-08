@@ -10,14 +10,20 @@
 </head>
 <body>
 
-	<section class="col-12">
-	<div class="card px-0 col-3 mx-auto mt-5 p-5">
+	<section class="col-10 mx-auto row justify-content-center">
+	<div class="col-5 card mx-auto mt-5 py-5">
 		<div class="mx-auto" >
 			<button class="btn btn-sm btn-outline-dark mb-3" onclick="return(addMore());">Add more images <b>+</b></button>
 		<!-- <button class="btn btn-sm m-3" onclick="return(removeLast());">Remove image <b>-</b></button> -->
 		</div>
 		<form class="mx-auto" id="resizer-form" action="" method="post" enctype="multipart/form-data" style="width:350px;" onsubmit="return(validate());">
-		<div style="display:none;position:relative;" id="loader" ><img src="loader.gif" alt=""></div>
+			<div style="display:none;position:absolute;z-index:9999;" class="float-right" id="loader" ><img style="width:50px;" src="loader.gif" alt=""></div>
+			
+			<div class="form-group">
+				<label for="fileToUpload">Provide upload folder link</label>
+				<input class="form-control-file" type="text" name="uploadFolder" id="uploadFolder" placeholder="uploads/">
+			</div>
+			
 			<div class="row">
 				<div class="form-group col">
 					<label for="fileToUpload">Set width</label>
@@ -57,6 +63,12 @@
 			</div>
 			
 		</form>
+	</div>
+
+	<div class="col-5 card mx-auto mt-5 py-5">
+		<h5>Click On Images To Download</h5>
+		<div id="image-box" class="d-flex flex-row justify-content-around"></div>
+		
 	</div>
 		
 	</section>

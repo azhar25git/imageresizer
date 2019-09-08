@@ -11,7 +11,19 @@ use \Gumlet\ImageResize;
 
 // Check if image file is a actual image or fake image
 if(isset($_POST["submit"])) {
-    $target_dir = __DIR__.'/uploads/';
+
+    $upload_folder = (string) $_POST['uploadFolder'];
+    $default_dir = "uploads/";
+    if($upload_folder == ''){
+        $target_dir = __DIR__ . '/' . $default_dir;
+        
+        $upload_dir = $default_dir;
+        
+    } else {
+        $target_dir = __DIR__ . '/' . $upload_folder;
+        $default_dir = $target_dir;
+    }
+    // echo $target_dir;exit;
     $file_count = count($_FILES['fileToUpload']['name']);
 
     // Receive width and height
@@ -90,13 +102,14 @@ if(isset($_POST["submit"])) {
                     $new_name = $file_base_name . '_700.' . $ext;
                 }
                 
-                
                 // $new_name = $file_base_name . '_'. time() . '.' . $ext;
                 $new_name_location = $target_dir .'/'. $new_name;
-                
+                $final_link = $upload_dir . '/' . $new_name;
+
                 if($uploaded_image->save($new_name_location)){
                     
-                    echo "<script>console.log('Done')</script>";
+                    echo "<script>console.log('Done');";
+                    echo "document.getElementById('image-box').insertAdjacentHTML('beforeend', '<a class=\"p-3\" href=\"".$final_link."\" download=\"".$new_name."\"> <img src=\"".$final_link."\" alt=\"image\" width=\"180\" height=\"180\"> </a>');</script>";
                     @unlink($target_file);
                 }else {
                     echo "<script>console.log('error saving')</script>";
@@ -116,6 +129,8 @@ if(isset($_POST["submit"])) {
     }
     
 
+}else {
+    echo "<script>console.log('No POST Request Was Sent.')</script>";
 }
 ?>
 <!-- <script>

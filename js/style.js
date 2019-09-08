@@ -1,4 +1,6 @@
+
 function validate(){    
+  
     var inp = document.getElementById('fileToUpload');
     if(inp.files.length === 0){
         alert("Atleast one image is required");
@@ -11,10 +13,9 @@ function validate(){
         var form = document.getElementById('resizer-form');
         form.submit();
         form.reset();
+        
         return false;
     }
-    
-    
     
 }
 
