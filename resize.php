@@ -12,6 +12,15 @@ use \Gumlet\ImageResize;
 // Check if image file is a actual image or fake image
 if(isset($_POST["submit"])) {
 
+    //The name of the directory that we need to create.
+    $directoryName = 'uploads';
+    
+    //Check if the directory already exists.
+    if(!is_dir($directoryName)){
+        //Directory does not exist, so lets create it.
+        mkdir($directoryName, 0755);
+    }
+    
     // $upload_folder = (string) $_POST['uploadFolder'];
     $upload_folder = (string) '';
     $default_dir = "uploads/";

@@ -25,7 +25,7 @@ function addMore() {
     click += 1;
     var htmlToInsert = 
         '<div class = "form-group my-2" id="newButton'+ click +'">'+
-            '<div class="row mx-0"><input style="width:75%;" class = "form-control-file" type = "file" name = "fileToUpload[]" id = "fileToUpload">' +
+            '<div class="row mx-0"><input style="width:75%;" class = "form-control-file" type = "file" name = "fileToUpload[]" id = "fileToUpload" >' +
             '<span style="width:20%;" class="btn btn-sm btn-outline-danger" onclick="return(removeThis(this));">remove</span></div>' +
         '</div>';
 
